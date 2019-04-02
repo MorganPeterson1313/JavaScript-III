@@ -145,3 +145,63 @@ CharacterStats.call(this, arsenal);
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+
+function Villain (attributes){
+this.name = attributes.name;
+this.healthPoints = attributes.healthPoints;
+this.damage = attributes.damage;
+Humanoid.call(this, attributes)
+}
+
+
+Villain.prototype = Object.create(Humanoid.prototype);
+Villain.prototype.damage = function(){
+for (let i=0; i< healthPoints.length; i++){
+  if (healthPoints[i] <= 0){
+    --i;
+  return `Finish ${this.name}! Take that ${this.name}! Now you are damaged ${damage}!`;
+  }else{
+    return `I got you now ${this.name}!`;
+  }
+  
+
+  }
+}
+
+
+
+function Hero (attributes){
+this.name = attributes.name;
+this.healthPoints = attributes.healthPoints;
+this.damage = attributes.damage;
+Villain.call(this, attributes);
+}
+
+Hero.prototype = Object.create(Villain.prototype);
+Hero.prototype.damage = function(){
+  for (let i=0; i < healthPoints.length; i++){
+    if(healthPoints[i] <= 0){
+        return `Finish ${this.name}! Take that ${this.name}! Now you are damaged ${damage}!`;
+    }else{
+      return `I got you now ${this.name}!`;
+    }
+  }
+}
+
+
+  const villain = new Humanoid ({
+    name: "Catwoman",
+    healthPoints: [0, 1, 2],
+    damage: "goods",
+  });
+
+  const hero = new Humanoid ({
+    name: "Batman",
+    healthPoints: [0, 1, 2],
+    damage: "goods",
+  });
+
+console.log(villain.name);
+console.log(hero.name);
+console.log(hero.damage());
