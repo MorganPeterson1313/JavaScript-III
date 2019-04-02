@@ -1,3 +1,5 @@
+
+
 /*
   Object oriented design is commonly used in video games.  For this part of the assignment you will be implementing several constructor functions with their correct inheritance hierarchy.
 
@@ -15,14 +17,14 @@
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
-function GameObject(createdAt, name, dimensions, ) {
-this.createdAt = createdAt;
-this.name = name;
-this.dimensions = dimensions;
-this.CharacterStats.call(this, name);
+function GameObject(attributes) {
+this.createdAt = attributes.createdAt;
+this.name = attributes.name;
+this.dimensions = attributes.dimensions;
+
 }
 
-GameObject.prototype = object.create(CharacterStats.prototype);
+
 
 GameObject.prototype.destroy = function(){
   return `${this.name} was removed from the game.`;
@@ -34,12 +36,14 @@ GameObject.prototype.destroy = function(){
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
-function CharacterStats (healthPoints, name){
-  Humanoid.call(this, name);
-  this.healthPoints = healthPoints;
+function CharacterStats (points){
+  GameObject.call(this, points);
+  this.healthPoints = points.healthPoints;
+  this.isChracterStats = points.isCharacterStats;
 }
 
-CharacterStats.prototype = object.create(Humanoid.prototype);
+CharacterStats.prototype = Object.create(GameObject.prototype);
+
 CharacterStats.prototype.takeDamage = function (){
   return `${this.name} took damage.`;
 }
@@ -53,15 +57,16 @@ CharacterStats.prototype.takeDamage = function (){
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
- function Humanoid (){
-this.team = team;
-this.weapons = weapons;
-this.language = language;
+ function Humanoid (arsenal){
+this.team = arsenal.team;
+this.weapons = arsenal.weapons;
+this.language = arsenal.language;
+CharacterStats.call(this, arsenal);
  }
 
- Humanoid.prototype = object.create(CharacterStats.prototype);
+ Humanoid.prototype = Object.create(CharacterStats.prototype);
  Humanoid.prototype.greet = function(){
-   return `${this.name} offers a greeting in ${this.language}`;
+   return `${Humanoid.name} offers a greeting in ${Humanoid.language}`;
  }
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
@@ -124,7 +129,7 @@ this.language = language;
     language: 'Elvish',
   });
 
-  console.log(mage.createdAt); // Today's date
+  console.log(mage.createdAt); //Today's date
   console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
   console.log(swordsman.healthPoints); // 15
   console.log(mage.name); // Bruce
