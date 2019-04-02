@@ -54,16 +54,20 @@ console.log(jaguar);
 // code example for Explicit Binding
 
 const mammal = {
+    
     name: "Bottle Nose Dolphin"
+   
 }
 const human = {
+    
     name: 'Homo Sapien,contemporary human'
+
 }
 
-const thingsInCommon = ["gestate embryos in our stomachs", " are warm blooded", "raise our young",];
+const thingsInCommon = ["gestate embryos in our stomachs", " are warm blooded", "raise our young"];
 
 function venDiagram(thingsInCommon1, thingsInCommon2, thingsInCommon3){
-    return ` ${this.name} and ${this.name} have these things in common we: ${thingsInCommon1}, ${thingsInCommon2}, and ${thingsInCommon3}. `;
+    return ` ${human.name} and ${mammal.name} have these things in common we: ${thingsInCommon}. `;
 }
 
 console.log(venDiagram.call(human, mammal, ... thingsInCommon));
