@@ -39,7 +39,7 @@ function Mammal(habitat){
 
     this.habitat = habitat;
     this.lives = function () {
-     console.log( `${this.mammal} lives in the  ${this.lives}`);
+     console.log( `this mammal lives in the  ${this.lives}`);
     }
 }
 
