@@ -39,7 +39,7 @@ GameObject.prototype.destroy = function(){
 function CharacterStats (points){
   GameObject.call(this, points);
   this.healthPoints = points.healthPoints;
-  this.isChracterStats = points.isCharacterStats;
+  // this.isChracterStats = points.isCharacterStats;
 }
 
 CharacterStats.prototype = Object.create(GameObject.prototype);
@@ -148,60 +148,89 @@ CharacterStats.call(this, arsenal);
 
 
 function Villain (attributes){
+Humanoid.call(this, attributes)
 this.name = attributes.name;
 this.healthPoints = attributes.healthPoints;
-this.damage = attributes.damage;
-Humanoid.call(this, attributes)
+this.weapon = attributes.weapons;
+
 }
 
 
 Villain.prototype = Object.create(Humanoid.prototype);
-Villain.prototype.damage = function(){
-for (let i=0; i< healthPoints.length; i++){
-  if (healthPoints[i] <= 0){
-    --i;
-  return `Finish ${this.name}! Take that ${this.name}! Now you are damaged ${damage}!`;
-  }else{
-    return `I got you now ${this.name}!`;
-  }
-  
-
-  }
-}
 
 
-
-function Hero (attributes){
-this.name = attributes.name;
-this.healthPoints = attributes.healthPoints;
-this.damage = attributes.damage;
-Villain.call(this, attributes);
-}
-
-Hero.prototype = Object.create(Villain.prototype);
-Hero.prototype.damage = function(){
-  for (let i=0; i < healthPoints.length; i++){
-    if(healthPoints[i] <= 0){
-        return `Finish ${this.name}! Take that ${this.name}! Now you are damaged ${damage}!`;
-    }else{
-      return `I got you now ${this.name}!`;
+Villain.prototype.pulverize = function(){
+   for (let i=0; i< this.healthPoints; i++){
+  if (this.healthPoints[i] > 1){
+  return `Finish ${this.name}! Take that ${this.name}! Now you are destroyed by ${this.weapons}!`;
+  }else if (this.healthPoints <= 0) {
+    return `${this.name} you're destroyed`;
+  } else {
+    i--;
     }
   }
 }
 
 
-  const villain = new Humanoid ({
-    name: "Catwoman",
-    healthPoints: [0, 1, 2],
-    damage: "goods",
+function Hero (attributes){
+Villain.call(this, attributes);
+this.name = attributes.name;
+this.healthPoints = attributes.healthPoints;
+this.weapons = attributes.weapons;
+
+}
+
+Hero.prototype = Object.create(Villain.prototype);
+
+Hero.prototype.pulverize = function(){
+ for (let i=0; i < this.healthPoints; i++){
+    if(this.healthPoints[i] <= 2){
+        return `Finish ${this.name}! Take that ${this.name}! Now you are destroyed by my ${this.weapons}!`;
+    }else if (this.healthPoints <= 0) {
+      return `${this.name} you're destroyed`;
+    } else {
+      i--;
+      }
+    }
+  }
+
+  const villain = new Humanoid({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 10,
+    name: 'Catwoman',
+    team: 'Forest Kingdom',
+    weapons: [
+      'Claws',
+      'Dagger',
+    ],
+    language: 'Elvish',
+    weapon: "my claws",
   });
 
-  const hero = new Humanoid ({
-    name: "Batman",
-    healthPoints: [0, 1, 2],
-    damage: "goods",
+  const hero = new Humanoid({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 10,
+    name: 'Batman',
+    team: 'Gotham',
+    weapons: [
+      'Batman Star',
+      'Dagger',
+    ],
+    language: 'English',
   });
 
 console.log(villain.name);
 console.log(hero.name);
-console.log(hero.damage());
+console.log(villain.healthPoints)
+console.log(hero.pulverize());
+console.log(villain.pulverize());
