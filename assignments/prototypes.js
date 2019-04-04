@@ -159,17 +159,17 @@ this.weapon = attributes.weapons;
 Villain.prototype = Object.create(Humanoid.prototype);
 
 
-Villain.prototype.pulverize = function(){
-   for (let i=0; i< this.healthPoints; i++){
-  if (this.healthPoints[i] > 1){
+Villain.prototype.pulverize = function(target){
+   
+  if (this.healthPoints > 1){
   return `Finish ${this.name}! Take that ${this.name}! Now you are destroyed by ${this.weapons}!`;
   }else if (this.healthPoints <= 0) {
     return `${this.name} you're destroyed`;
   } else {
-    i--;
+    return target.name;
     }
   }
-}
+
 
 
 function Hero (attributes){
@@ -182,26 +182,27 @@ this.weapons = attributes.weapons;
 
 Hero.prototype = Object.create(Villain.prototype);
 
-Hero.prototype.pulverize = function(){
- for (let i=0; i < this.healthPoints; i++){
-    if(this.healthPoints[i] <= 2){
+Hero.prototype.pulverize = function(target){
+
+ 
+    if(target.healthPoints <= 2){
         return `Finish ${this.name}! Take that ${this.name}! Now you are destroyed by my ${this.weapons}!`;
     }else if (this.healthPoints <= 0) {
       return `${this.name} you're destroyed`;
     } else {
-      i--;
-      }
-    }
-  }
+     return target.name; 
+     }
+     }
+  
 
-  const villain = new Humanoid({
+  const villain = new Villain({
     createdAt: new Date(),
     dimensions: {
       length: 1,
       width: 2,
       height: 4,
     },
-    healthPoints: 10,
+    healthPoints: 1,
     name: 'Catwoman',
     team: 'Forest Kingdom',
     weapons: [
@@ -212,7 +213,7 @@ Hero.prototype.pulverize = function(){
     weapon: "my claws",
   });
 
-  const hero = new Humanoid({
+  const hero = new Hero({
     createdAt: new Date(),
     dimensions: {
       length: 1,
@@ -229,8 +230,8 @@ Hero.prototype.pulverize = function(){
     language: 'English',
   });
 
-console.log(villain.name);
-console.log(hero.name);
-console.log(villain.healthPoints)
-console.log(hero.pulverize());
-console.log(villain.pulverize());
+// console.log(villain.name);
+// console.log(hero.name);
+// console.log(villain.healthPoints)
+console.log(hero.pulverize(villain));
+// console.log(villain.healthPoints);
