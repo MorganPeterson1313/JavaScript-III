@@ -1,3 +1,5 @@
+
+
 /*
   Object oriented design is commonly used in video games.  For this part of the assignment you will be implementing several constructor functions with their correct inheritance hierarchy.
 
@@ -15,6 +17,18 @@
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
+function GameObject(attributes) {
+this.createdAt = attributes.createdAt;
+this.name = attributes.name;
+this.dimensions = attributes.dimensions;
+
+}
+
+
+
+GameObject.prototype.destroy = function(){
+  return `${this.name} was removed from the game.`;
+}
 
 /*
   === CharacterStats ===
@@ -22,6 +36,17 @@
   * takeDamage() // prototype method -> returns the string '<object name> took damage.'
   * should inherit destroy() from GameObject's prototype
 */
+function CharacterStats (points){
+  GameObject.call(this, points);
+  this.healthPoints = points.healthPoints;
+  // this.isChracterStats = points.isCharacterStats;
+}
+
+CharacterStats.prototype = Object.create(GameObject.prototype);
+
+CharacterStats.prototype.takeDamage = function (){
+  return `${this.name} took damage.`;
+}
 
 /*
   === Humanoid (Having an appearance or character resembling that of a human.) ===
@@ -32,16 +57,28 @@
   * should inherit destroy() from GameObject through CharacterStats
   * should inherit takeDamage() from CharacterStats
 */
- 
+ function Humanoid (arsenal){
+this.team = arsenal.team;
+this.weapons = arsenal.weapons;
+this.language = arsenal.language;
+CharacterStats.call(this, arsenal);
+ }
+
+ Humanoid.prototype = Object.create(CharacterStats.prototype);
+ Humanoid.prototype.greet = function(){
+   return `${Humanoid.name} offers a greeting in ${Humanoid.language}`;
+ }
 /*
   * Inheritance chain: GameObject -> CharacterStats -> Humanoid
   * Instances of Humanoid should have all of the same properties as CharacterStats and GameObject.
   * Instances of CharacterStats should have all of the same properties as GameObject.
 */
 
+
+
 // Test you work by un-commenting these 3 objects and the list of console logs below:
 
-/*
+
   const mage = new Humanoid({
     createdAt: new Date(),
     dimensions: {
@@ -92,7 +129,7 @@
     language: 'Elvish',
   });
 
-  console.log(mage.createdAt); // Today's date
+  console.log(mage.createdAt); //Today's date
   console.log(archer.dimensions); // { length: 1, width: 2, height: 4 }
   console.log(swordsman.healthPoints); // 15
   console.log(mage.name); // Bruce
@@ -102,9 +139,99 @@
   console.log(archer.greet()); // Lilith offers a greeting in Elvish.
   console.log(mage.takeDamage()); // Bruce took damage.
   console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
-*/
+
 
   // Stretch task: 
   // * Create Villain and Hero constructor functions that inherit from the Humanoid constructor function.  
   // * Give the Hero and Villains different methods that could be used to remove health points from objects which could result in destruction if health gets to 0 or drops below 0;
   // * Create two new objects, one a villain and one a hero and fight it out with methods!
+
+
+function Villain (attributes){
+Humanoid.call(this, attributes)
+this.name = attributes.name;
+this.healthPoints = attributes.healthPoints;
+this.weapon = attributes.weapons;
+
+}
+
+
+Villain.prototype = Object.create(Humanoid.prototype);
+
+
+Villain.prototype.pulverize = function(target){
+   
+  if (this.healthPoints > 1){
+  return `Finish ${this.name}! Take that ${this.name}! Now you are destroyed by ${this.weapons}!`;
+  }else if (this.healthPoints <= 0) {
+    return `${this.name} you're destroyed`;
+  } else {
+    return target.name;
+    }
+  }
+
+
+
+function Hero (attributes){
+Villain.call(this, attributes);
+this.name = attributes.name;
+this.healthPoints = attributes.healthPoints;
+this.weapons = attributes.weapons;
+
+}
+
+Hero.prototype = Object.create(Villain.prototype);
+
+Hero.prototype.pulverize = function(target){
+
+ 
+    if(target.healthPoints <= 2){
+        return `Finish ${this.name}! Take that ${this.name}! Now you are destroyed by my ${this.weapons}!`;
+    }else if (this.healthPoints <= 0) {
+      return `${this.name} you're destroyed`;
+    } else {
+     return target.name; 
+     }
+     }
+  
+
+  const villain = new Villain({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 1,
+    name: 'Catwoman',
+    team: 'Forest Kingdom',
+    weapons: [
+      'Claws',
+      'Dagger',
+    ],
+    language: 'Elvish',
+    weapon: "my claws",
+  });
+
+  const hero = new Hero({
+    createdAt: new Date(),
+    dimensions: {
+      length: 1,
+      width: 2,
+      height: 4,
+    },
+    healthPoints: 10,
+    name: 'Batman',
+    team: 'Gotham',
+    weapons: [
+      'Batman Star',
+      'Dagger',
+    ],
+    language: 'English',
+  });
+
+// console.log(villain.name);
+// console.log(hero.name);
+// console.log(villain.healthPoints)
+console.log(hero.pulverize(villain));
+// console.log(villain.healthPoints);
